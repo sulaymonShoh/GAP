@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} Rooms {% endblock %}
+
+{% block body %}
+    <h3>Room List</h3>
+    <div class="row">
+    {% for room in rooms %}
+
+            <div class="col-2">
+                <div class="card card-body">
+                    <h4 class="mb-4">{{ room }}</h4>
+                    <a href="{% url 'gap:room' room.pk %}" class="btn btn-outline-primary">Kirish</a>
+                </div>
+            </div>
+    {% endfor %}
+        </div>
+
+{% endblock %}
