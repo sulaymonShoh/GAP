@@ -30,16 +30,17 @@ class LikeOpinionView(LoginRequiredMixin, View):
         like, created = OpinionLike.objects.get_or_create(user=request.user, opinion=opinion)
         if not created:
             like.delete()
-        return redirect(reverse("gap:room", kwargs={"pk": opinion.room.pk}))
+        return redirect(reverse("gap:opinion_detail", kwargs={"pk": opinion.pk}))
 
 
 class OpinionDetailView(View):
     def get(self, request, pk):
         opinion = Opinion.objects.get(pk=pk)
         comments = opinion.comments.all().order_by("-created_at")
-
+        already_liked = OpinionLike.objects.filter(opinion=opinion, user=request.user).exists()
         context = {
             "opinion": opinion,
-            "comments": comments
+            "comments": comments,
+            "is_liked": already_liked,
         }
         return render(request, "gap/comments.html", context=context)
