@@ -3,11 +3,9 @@
         <h4 class="card-title">{{ opinion.title }}.</h4>
         <h6 class="card-subtitle mb-2 text-muted">{{ opinion.author }}</h6>
         <p class="card-text">{{ opinion.body }}.</p>
-        <a href="{%  url 'gap:opinion_detail' opinion.pk %}" class="card-link">Comments</a>
+        <a href="{% url 'gap:opinion_detail' opinion.pk %}" class="card-link">Comments</a>
         <a href="{% url 'gap:opinion-like' opinion.pk %}" class="card-link">
-            {% if already_liked %}
-            	
-            {% endif %} 
+            <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
         </a>
     </div>
 </div>
