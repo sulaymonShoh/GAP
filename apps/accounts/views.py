@@ -14,7 +14,8 @@ class RegisterView(View):
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            # print(form.cleaned_data)
+            user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
             messages.success(request, "User Successfully created")
