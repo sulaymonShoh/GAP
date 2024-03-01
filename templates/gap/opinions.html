@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
+    <a href="{% url 'gap:opinion_create' %}" class="btn btn-outline-success">Opinion qo'shish</a>
+    
     {% for opinion in opinions %}
         {% include 'gap/comment-card.html' %}
 

@@ -1,11 +1,20 @@
+{% load check_like %}
 <div class="card my-3">
     <div class="card-body">
         <h4 class="card-title">{{ opinion.title }}.</h4>
         <h6 class="card-subtitle mb-2 text-muted">{{ opinion.author }}</h6>
         <p class="card-text">{{ opinion.body }}.</p>
-        <a href="{% url 'gap:opinion_detail' opinion.pk %}" class="card-link">Comments</a>
-        <a href="{% url 'gap:opinion-like' opinion.pk %}" class="card-link">
-            <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+        <a href="{% url 'gap:opinion_detail' opinion.pk %}" class="card-link"><i class="fa-regular fa-comment mr-1 h5"></i>{{ opinion.commensts.count }}</a>
+        <a href="{% url 'gap:opinion_like' opinion.pk %}" class="card-link">
+            {% if request.user.is_authenticated %}
+                {% if opinion|check_opinion_like:request.user %}
+                    <i class="fa-solid fa-heart mr-1 h5"></i>{{ opinion.like_count }}
+                {% else %}
+                    <i class="fa-regular fa-heart mr-1 h5"></i>{{ opinion.like_count }}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'accounts:login' %}"><i class="fa-regular fa-heart"></i></a>
+            {% endif %}
         </a>
     </div>
 </div>

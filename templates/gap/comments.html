@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
+{% load check_like %}
+
 {% block body %}
     {% include 'gap/comment-card.html' %}
 
+    <h3 class="my-4">Comments</h3>
     {% for comment in comments %}
-        <div class="card">
-            <div class="card-header">
+        <div class="card my-2">
+            <div class="card-header h6">
                 {{ comment.author }}
             </div>
             <div class="card-body">
-
                 <h6 class="card-text ">{{ comment.body }}</h6>
-                <a href="#" class=""><i class="fa-regular fa-heart"></i></a>
-                <span class="card-title">{{ comment.like_count }} likes</span>
+                <a href="{% url 'gap:comment_like' comment.pk %}" class="">
+                    {% if request.user.is_authenticated %}
+                        {% if comment|check_comment_like:request.user %}
+                            <i class="fa-solid fa-heart mr-1 h5"></i> {{ comment.like_count }}
+                        {% else %}
+                            <i class="fa-regular fa-heart mr-1 h5"></i>{{ comment.like_count }}
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'accounts:login' %}"><i class="fa-regular fa-heart"></i></a>
+                    {% endif %}
+                </a>
             </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info text-center">
+            <h5>No comments yet</h5>
         </div>
     {% endfor %}
 

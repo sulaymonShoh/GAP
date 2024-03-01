@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Model, CharField, TextField, ForeignKey, CASCADE
+from django.urls import reverse
 
 from apps.shared.models import AbstractModel
 
@@ -24,6 +25,9 @@ class Opinion(AbstractModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("gap:opinion_detail", kwargs={"pk": self.id})
 
 
 class OpinionLike(AbstractModel):
